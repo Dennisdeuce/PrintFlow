@@ -123,13 +123,16 @@ const HAT_TEMPLATE = {
 // API ROUTES
 // ============================================
 
+// Health check - use /store/products instead of /store (doesn't need stores_list/read scope)
 app.get('/api/status', async (req, res) => {
   try {
     if (!PRINTFUL_TOKEN) {
       return res.json({ ok: false, error: 'PRINTFUL_TOKEN not set' });
     }
-    const store = await printfulAPI('/store');
-    res.json({ ok: true, store: store.result });
+    // Use store/products endpoint which only needs product read scope
+    const data = await printfulAPI('/store/products');
+    const productCount = (data.result || []).length;
+    res.json({ ok: true, store: { name: 'Court Sportswear', products: productCount } });
   } catch (err) {
     res.json({ ok: false, error: err.message });
   }

@@ -1,0 +1,11 @@
+run = "npm start"
+entrypoint = "server.js"
+
+[env]
+# Set PRINTFUL_TOKEN in Replit Secrets (padlock icon), not here
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "npm start"]
